@@ -1,4 +1,5 @@
-﻿using ApplicationCore.ServiceInterfaces;
+﻿using ApplicationCore.Models;
+using ApplicationCore.ServiceInterfaces;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace MovieShopMVC.Controllers
 {
-    [ApiController]
-    [Route(template:"api/Movies")]
+    //[ApiController]
+    //[Route(template: "api/Movies")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,21 +28,37 @@ namespace MovieShopMVC.Controllers
         }
 
         [HttpGet(template: "{id}")]
-        public string GetMovieById(int Id)
+        public async Task<IActionResult> GetMovieByIdAsync(int Id)
         {
-            var movie = _movieService.GetMovieById(Id);
-            if (movie == null) return null;
-            var res = JsonConvert.SerializeObject(movie);
-            return res;
+            var movie = await _movieService.GetMovieByIdAsync(Id);
+            if (movie == null) return NotFound();
+            return Ok(movie);
         }
+        //public string GetMovieById(int Id)
+        //{
+        //    var movie = _movieService.GetMovieById(Id);
+        //    if (movie == null) return null;
+        //    var res = JsonConvert.SerializeObject(movie);
+        //    return res;
+        //}
 
-        [HttpGet(template:"GetAllMovies")]
-        public string GetAllMovies() {
-            var movies = _movieService.GetAllMovies();
-            if (movies == null) return null;
-            var res = JsonConvert.SerializeObject(movies);
-            return res;
+        [HttpGet(template: "GetAllMovies")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetAllMovies() {
+            var movies = await _movieService.GetAllMoviesAsync();
+            var res = new List<MovieDto>();
+            foreach (var movie in movies)
+            {
+                res.Add(movie);
+            }
+            if (movies == null) return BadRequest();
+            return Ok(res);
         }
+        //public string GetAllMovies() {
+        //    var movies = _movieService.GetAllMovies();
+        //    if (movies == null) return null;
+        //    var res = JsonConvert.SerializeObject(movies);
+        //    return res;
+        //}
 
 
 
@@ -86,23 +103,23 @@ namespace MovieShopMVC.Controllers
         //    return new JsonResult(res2);
         //}
 
-        //public IActionResult Index(int Id)
-        //{
-        //    var movie = _movieService.GetMovieById(Id);
-        //    if (movie == null) return null;
-        //    var res = Newtonsoft.Json.JsonConvert.SerializeObject(movie);
-        //    return View();
-        //}
+        public IActionResult Index()
+        {
+            var movieService = new MovieService();
+            var movies = movieService.GetAllMovies();
+            ViewBag.MoviesCount = movies.Count();
+            return View(movies);
+        }
 
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
