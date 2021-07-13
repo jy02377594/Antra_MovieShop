@@ -25,7 +25,7 @@ namespace ApplicationCore.Entities
         public DateTime? LockoutEndDate { get; set; }
         public DateTime? LastLoginDateTime { get; set; }
         public bool? IsLocked { get; set; }
-        public int AccessFailedCount { get; set; }
+        public int? AccessFailedCount { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
