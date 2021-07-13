@@ -31,17 +31,18 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Movie>(ConfigureMovie);
+            modelBuilder.Entity<User>(ConfigureUser);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
-            //many to many
             modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
             modelBuilder.Entity<MovieCrew>(ConfigureMovieCrew);
             modelBuilder.Entity<MovieCast>(ConfigureMovieCast);
             modelBuilder.Entity<Review>(ConfigureReview);
             modelBuilder.Entity<UserRole>(ConfigureUserRole);
-            //one to many
             modelBuilder.Entity<Favorite>(ConfigureFavorite);
             modelBuilder.Entity<Purchase>(ConfigurePurchase);
         }
+
+
 
         private void ConfigureUserRole(EntityTypeBuilder<UserRole> obj)
         {
@@ -139,6 +140,12 @@ namespace Infrastructure.Data
             builder.HasKey(t => t.Id);
             builder.Property(t => t.TrailerUrl).HasMaxLength(2048);
             builder.Property(t => t.Name).HasMaxLength(2048);
+        }
+
+        private void ConfigureUser(EntityTypeBuilder<User> obj)
+        {
+            obj.ToTable("User");
+            obj.HasKey(u => u.Id);
         }
 
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
