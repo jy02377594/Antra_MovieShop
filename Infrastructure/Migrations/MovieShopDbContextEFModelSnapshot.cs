@@ -42,7 +42,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Casts");
+                    b.ToTable("Cast");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Crew", b =>
@@ -68,7 +68,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Crews");
+                    b.ToTable("Crew");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Favorite", b =>
@@ -316,7 +316,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Trailer", b =>

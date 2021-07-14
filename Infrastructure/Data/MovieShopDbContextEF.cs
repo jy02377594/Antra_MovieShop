@@ -40,6 +40,9 @@ namespace Infrastructure.Data
             modelBuilder.Entity<UserRole>(ConfigureUserRole);
             modelBuilder.Entity<Favorite>(ConfigureFavorite);
             modelBuilder.Entity<Purchase>(ConfigurePurchase);
+            modelBuilder.Entity<Role>().ToTable("Role");
+            modelBuilder.Entity<Cast>().ToTable("Cast");
+            modelBuilder.Entity<Crew>().ToTable("Crew");
         }
 
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MovieShopDbContextEF))]
-    [Migration("20210713223447_ChangeUser4")]
-    partial class ChangeUser4
+    [Migration("20210714033816_ChangeCrewName")]
+    partial class ChangeCrewName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Casts");
+                    b.ToTable("Cast");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Crew", b =>
@@ -70,7 +70,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Crews");
+                    b.ToTable("Crew");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Favorite", b =>
@@ -318,7 +318,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Trailer", b =>
