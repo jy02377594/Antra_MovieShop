@@ -1,6 +1,5 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.ServiceInterfaces;
-using ApplicationCore.DbContext;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,60 +7,109 @@ using Dapper;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ApplicationCore.RepositoryInterfaces;
 
 namespace Infrastructure.Services
 {
     public class MovieService : IMovieService
     {
-        MovieShopDbContext db;
-        public MovieService()
+        private readonly IMovieRepository _movieRepository;
+        public MovieService(IMovieRepository movieRepository)
         {
-            db = new MovieShopDbContext();
+            _movieRepository = movieRepository;
         }
 
         public IEnumerable<MovieDto> GetAllMovies()
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.Query<MovieDto>("Select top 50 * from Movie");
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<MovieDto>> GetAllMoviesAsync()
+        {
+            var movies = await _movieRepository.ListAllAsync();
+            var movieDto = new List<MovieDto>();
+            foreach(var movie in movies)
+            {
+                movieDto.Add(new MovieDto { Id = movie.Id, BackdropUrl = movie.BackdropUrl, Budget = movie.Budget.GetValueOrDefault(),
+                Overview = movie.Overview, PosterUrl = movie.PosterUrl, Price = movie.Price.GetValueOrDefault(), 
+                    ReleaseDate = movie.ReleaseDate.GetValueOrDefault(), Revenue = movie.Revenue.GetValueOrDefault(),
+                    Tagline = movie.Tagline, Title = movie.Tagline
+                });
+            }
+            return movieDto;
         }
 
         public MovieDto GetMovieById(int id)
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.QueryFirstOrDefault<MovieDto>("Select Id,Title,Overview, Tagline, Budget, Revenue, PosterUrl," +
-                "BackdropUrl,ReleaseDate,Price from Movie where Id = @MovieId", new { MovieId = id });
-        }
-
-
-        public List<MovieCardResponseModel> GetTopRevenueMovies()
-        {
-            var movies = new List<MovieCardResponseModel> {
-
-                          new MovieCardResponseModel {Id = 1, Title = "Avengers: Infinity War", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 2, Title = "Avatar", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 3, Title = "Star Wars: The Force Awakens", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 4, Title = "Titanic", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 5, Title = "Inception", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 6, Title = "Avengers: Age of Ultron", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 7, Title = "Interstellar", Budget = 1200000},
-                          new MovieCardResponseModel {Id = 8, Title = "Fight Club", Budget = 1200000},
-            };
-
-            return movies;
+            throw new NotImplementedException();
         }
 
         public Task<MovieDto> GetMovieByIdAsync(int id)
         {
-            IDbConnection conn = db.GetConnection();
-            var res = conn.QueryFirstOrDefaultAsync<MovieDto>("Select Id,Title,Overview, Tagline, Budget, Revenue, PosterUrl," +
-                "BackdropUrl,ReleaseDate,Price from Movie where Id = @MovieId", new { MovieId = id });
-            return res;
+            throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MovieDto>> GetAllMoviesAsync()
+        //MovieShopDbContext db;
+        //public MovieService()
+        //{
+        //    db = new MovieShopDbContext();
+        //}
+
+        //public IEnumerable<MovieDto> GetAllMovies()
+        //{
+        //    IDbConnection conn = db.GetConnection();
+        //    return conn.Query<MovieDto>("Select top 50 * from Movie");
+        //}
+
+        //public MovieDto GetMovieById(int id)
+        //{
+        //    IDbConnection conn = db.GetConnection();
+        //    return conn.QueryFirstOrDefault<MovieDto>("Select Id,Title,Overview, Tagline, Budget, Revenue, PosterUrl," +
+        //        "BackdropUrl,ReleaseDate,Price from Movie where Id = @MovieId", new { MovieId = id });
+        //}
+
+
+        //public List<MovieCardResponseModel> GetTopRevenueMovies()
+        //{
+        //    var movies = new List<MovieCardResponseModel> {
+
+        //                  new MovieCardResponseModel {Id = 1, Title = "Avengers: Infinity War", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 2, Title = "Avatar", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 3, Title = "Star Wars: The Force Awakens", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 4, Title = "Titanic", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 5, Title = "Inception", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 6, Title = "Avengers: Age of Ultron", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 7, Title = "Interstellar", Budget = 1200000},
+        //                  new MovieCardResponseModel {Id = 8, Title = "Fight Club", Budget = 1200000},
+        //    };
+
+        //    return movies;
+        //}
+
+        //public Task<MovieDto> GetMovieByIdAsync(int id)
+        //{
+        //    IDbConnection conn = db.GetConnection();
+        //    var res = conn.QueryFirstOrDefaultAsync<MovieDto>("Select Id,Title,Overview, Tagline, Budget, Revenue, PosterUrl," +
+        //        "BackdropUrl,ReleaseDate,Price from Movie where Id = @MovieId", new { MovieId = id });
+        //    return res;
+        //}
+
+        //public Task<IEnumerable<MovieDto>> GetAllMoviesAsync()
+        //{
+        //    IDbConnection conn = db.GetConnection();
+        //    return conn.QueryAsync<MovieDto>("Select top 1000 * from Movie");
+        //}
+
+        public async Task<List<MovieCardResponseModel>> GetTopRevenueMovies()
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.QueryAsync<MovieDto>("Select top 1000 * from Movie");
+            var movies = await _movieRepository.GetHighestGrossingMovies();
+            var movieCards = new List<MovieCardResponseModel>();
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel { Id = movie.Id, Budget = movie.Budget.GetValueOrDefault(), Title = movie.Title });
+            }
+
+            return movieCards;
         }
     }
 }

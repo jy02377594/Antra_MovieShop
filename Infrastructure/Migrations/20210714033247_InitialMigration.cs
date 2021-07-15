@@ -124,7 +124,7 @@ namespace Infrastructure.Migrations
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     CastId = table.Column<int>(type: "int", nullable: false),
-                    Character = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
+                    Character = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false)
                 },
                 constraints: table =>
                 {

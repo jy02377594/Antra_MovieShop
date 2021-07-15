@@ -103,11 +103,11 @@ namespace MovieShopMVC.Controllers
         //    return new JsonResult(res2);
         //}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var movieService = new MovieService();
-            var movies = movieService.GetAllMovies();
-            ViewBag.MoviesCount = movies.Count();
+            var movies = await _movieService.GetTopRevenueMovies();
+            var myType = movies.GetType();
+            ViewBag.MovieCount = movies.Count();
             return View(movies);
         }
 

@@ -106,11 +106,12 @@ namespace Infrastructure.Data
             builder.ToTable("MovieCast");
             builder.HasKey(mc => new { mc.CastId, mc.MovieId, mc.Character });
             builder.HasOne(mc => mc.Movie)
-                .WithMany(m => m.MovieCasts)
+                .WithMany(mc => mc.MovieCasts)
                 .HasForeignKey(mc => mc.MovieId);
             builder.HasOne(mc => mc.Cast)
-                .WithMany(c => c.MovieCasts)
+                .WithMany(mc => mc.MovieCasts)
                 .HasForeignKey(mc => mc.CastId);
+            //builder.Property(mc => mc.Character).HasMaxLength(45);
         }
 
         private void ConfigureMovieCrew(EntityTypeBuilder<MovieCrew> builder)
