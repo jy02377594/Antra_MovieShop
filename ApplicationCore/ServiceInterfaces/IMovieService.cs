@@ -11,5 +11,7 @@ namespace ApplicationCore.ServiceInterfaces
         Task<MovieDto> GetMovieByIdAsync(int id);
         IEnumerable<MovieDto> GetAllMovies();
         Task<IEnumerable<MovieDto>> GetAllMoviesAsync();
+
+        Task<MovieDetailsResponseModel> GetMovieDetails(int id);
     }
 }

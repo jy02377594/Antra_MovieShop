@@ -29,26 +29,37 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<T> GetById(int id)
+        public virtual async Task<T> GetById(int id)
         {
-            //var movie = await _dbContext.Movies.Where(x => x.Id == id).FirstOrDefaultAsync();
-            //return movie;
-            throw new NotImplementedException();
+            var entity = await _dbContext.Set<T>().FindAsync(id);
+            return entity;
         }
 
-        public Task<IEnumerable<T>> GetCountAsync(Expression<Func<T, bool>> filter = null)
+        public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            if (filter != null)
+            {
+                return await _dbContext.Set<T>().Where(filter).CountAsync();
+            }
+            return await _dbContext.Set<T>().CountAsync();
+        }
+        public virtual async Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+                return false;
+            }
+            return await _dbContext.Set<T>().Where(filter).AnyAsync();
         }
 
-        public Task<IEnumerable<T>> ListAllAsync()
+        public virtual async Task<IEnumerable<T>> ListAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
+        public virtual async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().Where(filter).ToListAsync();
         }
 
         public Task<T> UpdateAsync(T entity)

@@ -32,7 +32,7 @@ namespace MovieShopMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IMovieService, MovieService>();
+            services.AddScoped<IMovieService, MovieService>();
             services.AddDbContext<MovieShopDbContextEF>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection"));

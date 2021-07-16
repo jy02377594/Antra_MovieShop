@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Collections.Generic;
 
 namespace Infrastructure.Data
 {
@@ -16,7 +17,7 @@ namespace Infrastructure.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
-        public DbSet<MovieGenre> MovieGenres { get; set; }
+        //public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<Crew> Crews { get; set; }
         public DbSet<MovieCrew> MovieCrews { get; set; }
         public DbSet<Cast> Casts { get; set; }
@@ -33,7 +34,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<User>(ConfigureUser);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
-            modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
+            modelBuilder.Entity<Movie>(ConfigureMovieGenre);
             modelBuilder.Entity<MovieCrew>(ConfigureMovieCrew);
             modelBuilder.Entity<MovieCast>(ConfigureMovieCast);
             modelBuilder.Entity<Review>(ConfigureReview);
@@ -126,16 +127,23 @@ namespace Infrastructure.Data
                 .HasForeignKey(mc => mc.MovieId);
         }
 
-        private void ConfigureMovieGenre(EntityTypeBuilder<MovieGenre> builder)
+        //many to many dicitonary
+        private void ConfigureMovieGenre(EntityTypeBuilder<Movie> builder)
         {
-            builder.ToTable("MovieGenre");
-            builder.HasKey(mg => new { mg.GenreId, mg.MovieId });
-            builder.HasOne(mg => mg.Movie)
-                .WithMany(m => m.MovieGenres)
-                .HasForeignKey(mg => mg.MovieId);
-            builder.HasOne(mg => mg.Genre)
-                .WithMany(g => g.MovieGenres)
-                .HasForeignKey(mg => mg.GenreId);
+            //builder.ToTable("MovieGenre");
+            //builder.HasKey(mg => new { mg.GenreId, mg.MovieId });
+            //builder.HasOne(mg => mg.Movie)
+            //    .WithMany(m => m.MovieGenres)
+            //    .HasForeignKey(mg => mg.MovieId);
+            //builder.HasOne(mg => mg.Genre)
+            //    .WithMany(g => g.MovieGenres)
+            //    .HasForeignKey(mg => mg.GenreId);
+
+            builder.HasMany(m => m.Genres).WithMany(g => g.Movies)
+                .UsingEntity<Dictionary<string, object>>("MovieGenre",
+                m => m.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
+                g => g.HasOne<Movie>().WithMany().HasForeignKey("MovieId")
+                 );
         }
 
         private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)

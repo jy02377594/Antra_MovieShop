@@ -1,0 +1,21 @@
+﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+
+<div>
+    <label style="font:bold; font-size:medium">CAST</label>
+    <ul class="list-group list-group-flush">
+        @foreach (var cast in Model.Casts)
+        {
+        <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@cast.Id">
+            <table>
+            <tr>
+                <td>
+                    <img src="@cast.ProfilePath" class="rounded-circle" style="width:70px" />
+                </td>
+                <td width="200px" style="padding-left:6%">@cast.Name</td>
+                <td width="400px" style="padding-left:20%">@cast.Character</td>
+            </tr>
+        </table>
+        </li>
+        }
+    </ul>
+</div>

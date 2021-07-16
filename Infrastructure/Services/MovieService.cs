@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.RepositoryInterfaces;
+using static ApplicationCore.Models.MovieDetailsResponseModel;
+using ApplicationCore.Entities;
 
 namespace Infrastructure.Services
 {
@@ -47,6 +49,50 @@ namespace Infrastructure.Services
         public Task<MovieDto> GetMovieByIdAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
+        {
+            var movie = await _movieRepository.GetById(id);
+
+            var movieDetails = new MovieDetailsResponseModel()
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Budget = movie.Budget.GetValueOrDefault(),
+                ReleaseDate = movie.ReleaseDate,
+                RunTime = movie.RunTime,
+                Revenue = movie.Revenue, 
+                PosterUrl = movie.PosterUrl,
+                Overview = movie.Overview,
+                Tagline = movie.Tagline,
+                BackdropUrl = movie.BackdropUrl,
+                Price = movie.Price
+            };
+
+            movieDetails.Casts = new List<CastResponseModel>();
+            foreach (var cast in movie.MovieCasts)
+            {
+                movieDetails.Casts.Add(new CastResponseModel
+                {
+                    Id = cast.CastId,
+                    Name = cast.Cast.Name,
+                    Character = cast.Character,
+                    ProfilePath = cast.Cast.ProfilePath
+                });
+            }
+
+            movieDetails.Genres = new List<GenreModel>();
+            foreach (var genre in movie.Genres)
+            {
+                movieDetails.Genres.Add(new GenreModel
+                {
+                    Id = genre.Id,
+                    Name = genre.Name
+                });
+            }
+
+            return movieDetails;
         }
 
         //MovieShopDbContext db;
@@ -106,7 +152,7 @@ namespace Infrastructure.Services
             var movieCards = new List<MovieCardResponseModel>();
             foreach (var movie in movies)
             {
-                movieCards.Add(new MovieCardResponseModel { Id = movie.Id, Budget = movie.Budget.GetValueOrDefault(), Title = movie.Title });
+                movieCards.Add(new MovieCardResponseModel { Id = movie.Id, Budget = movie.Budget.GetValueOrDefault(), Title = movie.Title, PosterUrl = movie.PosterUrl });
             }
 
             return movieCards;
