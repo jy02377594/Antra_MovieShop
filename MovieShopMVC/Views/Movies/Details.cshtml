@@ -87,7 +87,9 @@
                     <ul class="list-group list-group-flush">
                         @foreach (var cast in Model.Casts)
                         {
-                            <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@cast.Id" >
+                        
+                        <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@cast.Id">
+                            <a asp-action="index" asp-controller="Cast" asp-route-cid="@cast.Id">
                                 <table>
                                     <tr>
                                         <td>
@@ -97,7 +99,9 @@
                                         <td width="400px" style="padding-left:20%">@cast.Character</td>
                                     </tr>
                                 </table>
-                            </li>
+                            </a>
+                        </li>
+                        
                         }
                     </ul>
             </div>

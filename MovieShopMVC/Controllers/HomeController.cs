@@ -27,13 +27,13 @@ namespace MovieShopMVC.Controllers
             _movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
         }
 
-        [HttpGet(template: "{id}")]
-        public async Task<IActionResult> GetMovieByIdAsync(int Id)
-        {
-            var movie = await _movieService.GetMovieByIdAsync(Id);
-            if (movie == null) return NotFound();
-            return Ok(movie);
-        }
+        //[HttpGet(template: "{id}")]
+        //public async Task<IActionResult> GetMovieByIdAsync(int Id)
+        //{
+        //    var movie = await _movieService.GetMovieByIdAsync(Id);
+        //    if (movie == null) return NotFound();
+        //    return Ok(movie);
+        //}
         //public string GetMovieById(int Id)
         //{
         //    var movie = _movieService.GetMovieById(Id);

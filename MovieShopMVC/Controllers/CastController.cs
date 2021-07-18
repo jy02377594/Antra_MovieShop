@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApplicationCore.ServiceInterfaces;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,15 @@ namespace MovieShopMVC.Controllers
 {
     public class CastController : Controller
     {
-        public IActionResult Index()
+        private readonly ICastService _castService;
+        public CastController(ICastService castService)
         {
-            return View();
+            _castService = castService;
+        }
+        public async Task<IActionResult> Index(int cid)
+        {
+            var cast = await _castService.GetCastByIdAsync(cid);
+            return View("~/Views/Shared/_MovieCast.cshtml", cast);
         }
     }
 }

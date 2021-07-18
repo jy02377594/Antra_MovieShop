@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\GenreController.cs" />
+    <Compile Remove="Controllers\MovieController.cs" />
   </ItemGroup>
 
   <ItemGroup>

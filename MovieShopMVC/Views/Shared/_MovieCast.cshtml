@@ -1,0 +1,32 @@
+﻿@model ApplicationCore.Models.CastDetailsResponseModel
+    <script src="https://kit.fontawesome.com/6a29eea265.js" crossorigin="anonymous"></script>
+    <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@Model.Id">
+        <table>
+            <tr>
+                <td width="200px" style="padding-left:6%">
+                    <img src="@Model.ProfilePath" class="rounded-circle" style="width:70px" />
+                </td>
+                <td width="200px" style="padding-left:6%">@Model.Name</td>
+                <td width="200px" style="padding-left:6%">@Model.Gender</td>
+                <td width="200px" style="padding-left:6%">
+                    <a href="@Model.TmdbUrl">
+                        IMDB LINK:
+                        <i class="fab fa-imdb"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </li>
+
+    <div class="rounded">
+        <div class="container-fluid bg-light"></div>
+        <div class="row">
+            @foreach (var movie in Model.Movies)
+            {
+                <div class="col-2">
+                    <partial name="_MovieCard" model="movie" />
+                    @*@await Html.PartialAsync("_MovieCard", movie);*@
+                </div>
+            }
+        </div>
+    </div>

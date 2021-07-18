@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.RepositoryInterfaces
 {
-    interface ICastRepository:IAsyncRepository<Cast>
+    public interface ICastRepository:IAsyncRepository<Cast>
     {
         Task<List<Cast>> GetAllCasts();
-        Task<Cast> GetCastById();
+        Task<Cast> GetCastByIdAsync(int cid);
     }
 }
