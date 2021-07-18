@@ -67,7 +67,8 @@ namespace Infrastructure.Services
                 Overview = movie.Overview,
                 Tagline = movie.Tagline,
                 BackdropUrl = movie.BackdropUrl,
-                Price = movie.Price
+                Price = movie.Price,
+                Rating = movie.Rating
             };
 
             movieDetails.Casts = new List<CastResponseModel>();

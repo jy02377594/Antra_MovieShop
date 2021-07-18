@@ -25,6 +25,7 @@ namespace Infrastructure.Repositories
             return topMovies;
         }
 
+        //movieDetialsModel包含三个表，这里要根据movieId去找到两个个表（Cast，Genre）里的数据,相当于把movie表扩展了其他表的字段
         public override async Task<Movie> GetById(int id)
         {
             var movie = await _dbContext.Movies.Include(movie => movie.MovieCasts).ThenInclude(m => m.Cast)

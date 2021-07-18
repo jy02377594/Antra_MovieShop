@@ -1,21 +1,106 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+    <script src="https://kit.fontawesome.com/6a29eea265.js" crossorigin="anonymous"></script>
+    <div class="container" style="max-width: 100%;">
+        <div class="row clearfix">
+            <div class="col-md-12 column" style="background-image:url(@Model.BackdropUrl); background-size: 2000px;">
+                <div class="row clearfix" style="background: darkslategray; opacity: 0.7;">
+                    <div class="col-md-4 column">
+                        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" style="padding-left:10%"/>
+                    </div>
+                    <div class="col-md-4 column" style="color:white">
+                        <h2>
+                            @Model.Title
+                        </h2>
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <span>@Model.Tagline</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span>@Model.RunTime m</span> |  <span>@Convert.ToDateTime(@Model.ReleaseDate).ToString("yyyy")</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span>@Model.Rating</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @foreach (var genre in Model.Genres)
+                            { 
+                            <div class="col">
+                                @genre.Name
+                            </div>
+                            }
+                        </div>
+                        <br />
+                        <p>
+                            @Model.Overview
+                        </p>
+                            </div>
+                    <div class="col-md-4 column">
+                        <div class="d-grid gap-2 col-5 mx-auto">
+                            <div class="row">
+                                <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px"><i class="fas fa-edit"></i>&nbsp;REVIEW</button>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px"><i class="fas fa-play"></i>&nbsp;TRAILER</button>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px">BUY @Model.Price</button>
+                                </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px">WATCH MOVIE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        <div class="row clearfix">
+            <div class="col-md-4 column">
+                    <label style="font:800; font-size:medium">MOVIE FACTS</label>
+                    <ul class="list-group list-group-flush">
 
-<div>
-    <label style="font:bold; font-size:medium">CAST</label>
-    <ul class="list-group list-group-flush">
-        @foreach (var cast in Model.Casts)
-        {
-        <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@cast.Id">
-            <table>
-            <tr>
-                <td>
-                    <img src="@cast.ProfilePath" class="rounded-circle" style="width:70px" />
-                </td>
-                <td width="200px" style="padding-left:6%">@cast.Name</td>
-                <td width="400px" style="padding-left:20%">@cast.Character</td>
-            </tr>
-        </table>
-        </li>
-        }
-    </ul>
-</div>
+                        <li class="list-group-item" style="border-color:black">
+                            <i class="far fa-calendar-alt"></i>
+                            Release&nbsp; @Convert.ToDateTime(@Model.ReleaseDate).ToString("M/dd/yyyy")
+                        <li class="list-group-item" style="border-color:black">
+                            <i class="fas fa-hourglass-half"></i>
+                            Run&nbsp;Time @Model.RunTime m
+                        </li>
+                        <li class="list-group-item" style="border-color:black">
+                            <i class="far fa-money-bill-alt"></i>
+                            Box&nbsp;Office $ $@Convert.ToInt64(@Model.Revenue)
+                        </li>
+                        <li class="list-group-item" style="border-color:black">
+                            <i class="fas fa-dollar-sign"></i>
+                            Budget $ $@Convert.ToInt64(@Model.Budget)
+                        </li>
+                    </ul>
+                    <i class="fab fa-imdb"></i> &nbsp;<i class="fas fa-share-square"></i>
+                </div>
+            <div class="col-md-8 column">
+                    <label style="font:800; font-size:medium">CAST</label>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var cast in Model.Casts)
+                        {
+                            <li class="list-group-item" asp-area="" asp-controller="Cast" asp-action="index" asp-route-id="@cast.Id" >
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <img src="@cast.ProfilePath" class="rounded-circle" style="width:70px" />
+                                        </td>
+                                        <td width="200px" style="padding-left:6%">@cast.Name</td>
+                                        <td width="400px" style="padding-left:20%">@cast.Character</td>
+                                    </tr>
+                                </table>
+                            </li>
+                        }
+                    </ul>
+            </div>
+        </div>
+    </div>
+
