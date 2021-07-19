@@ -19,7 +19,10 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Genre>> GetAllGenresAsync()
         {
-            return await _dbContext.Genres.OrderBy(g => g.Name).ToListAsync();
+            EfRepository<Genre> ER = new EfRepository<Genre>(_dbContext);
+            return await ER.ListAllAsync();
+
+            //return await _dbContext.Genres.OrderBy(g => g.Name).ToListAsync();
         }
         public async Task<Genre> GetGenreByGenreIdAsync(int gid)
         {
