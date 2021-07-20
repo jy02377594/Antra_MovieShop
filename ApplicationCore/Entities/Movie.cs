@@ -25,7 +25,7 @@ namespace ApplicationCore.Entities
         public string CreatedBy { get; set; }
         public decimal Rating { get; set; }
 
-        //Navigation
+        //Navigation Property
         public ICollection<Trailer> Trailers { get; set; }
         public ICollection<Genre> Genres { get; set; }
         public ICollection<MovieCrew> MovieCrews { get; set; }

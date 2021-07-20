@@ -1,4 +1,5 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+
     <script src="https://kit.fontawesome.com/6a29eea265.js" crossorigin="anonymous"></script>
     <div class="container" style="max-width: 100%;">
         <div class="row clearfix">
@@ -49,7 +50,9 @@
                                 <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px"><i class="fas fa-play"></i>&nbsp;TRAILER</button>
                             </div>
                             <div class="row">
-                                <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px">BUY @Model.Price</button>
+                                <a type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px" asp-controller="User" asp-action="ConfirmPurchase" asp-route-mId="@Model.Id" asp-route-price="@Model.Price">
+                                    BUY @Model.Price 
+                                </a>
                                 </div>
                             <div class="row">
                                 <button type="button" class="btn btn-primary btn-light" style="margin-top:10%;width:300px">WATCH MOVIE</button>

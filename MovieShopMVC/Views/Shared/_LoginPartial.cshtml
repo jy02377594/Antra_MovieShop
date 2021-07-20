@@ -1,0 +1,37 @@
+﻿@using ApplicationCore.ServiceInterfaces
+@inject ICurrentUser currentUser
+@inject IPurchaseService purchase
+ 
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @currentUser.FullName
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item">Library(@await purchase.GetAllMoviesByUserId(currentUser.UserId))</a>
+                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a>
+                        <a class="dropdown-item">View Profile</a>
+                        <a class="dropdown-item">Edit Profile</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" pr-4>
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item" pr-4>
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Register</a>
+            </li>
+        </ul>
+    </div>
+}
