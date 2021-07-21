@@ -6,7 +6,8 @@ namespace ApplicationCore.RepositoryInterfaces
 {
     public interface IPurchaseRepository : IAsyncRepository<Purchase>
     {
-        void AddPurchase(Purchase purchase);
+        Task<Purchase> AddPurchase(Purchase purchase);
         Task<IEnumerable<Purchase>> GetPurchaseByUserId(int uId);
+        Task<Purchase> UpdatePurchase(Purchase purchase);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +17,21 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async void AddPurchase(Purchase purchase)
+        public async Task<Purchase> AddPurchase(Purchase purchase)
         {
            await AddAsync(purchase);
+            return purchase;
         }
 
         public async Task<IEnumerable<Purchase>> GetPurchaseByUserId(int uId)
         {
             return await _dbContext.Purchases.Where(p => p.UserId == uId).ToListAsync();
+        }
+
+        public async Task<Purchase> UpdatePurchase(Purchase purchase)
+        {
+            await UpdateAsync(purchase);
+            return purchase;
         }
     }
 }

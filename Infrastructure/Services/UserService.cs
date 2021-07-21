@@ -1,15 +1,13 @@
-﻿using ApplicationCore.Exceptions;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using ApplicationCore.Entities;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -20,6 +18,35 @@ namespace Infrastructure.Services
         {
             _userRepository = userRepository;
         }
+
+        public async Task<IEnumerable<UserResponseModel>> GetAllUsers()
+        {
+            var users = await _userRepository.ListAllAsync();
+            var model = new List<UserResponseModel>();
+            foreach (var user in users)
+            {
+                model.Add(new UserResponseModel { 
+                    DateOfBirth = Convert.ToDateTime(user.DateOfBirth),
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName
+                });
+            }
+            return model;
+        }
+
+        public async Task<UserResponseModel> GetUserById(int id)
+        {
+            var user = await _userRepository.GetById(id);
+            return new UserResponseModel
+            {
+                Email = user.Email,
+                DateOfBirth = Convert.ToDateTime(user.DateOfBirth),
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+        }
+
         public async Task<UserLoginResponseModel> Login(string email, string password)
         {
             var dbUser = await _userRepository.GetUserByEmail(email);
@@ -61,7 +88,7 @@ namespace Infrastructure.Services
             {
                 Email = requestModel.Email,
                 Salt = salt,
-                FirstName= requestModel.FirstName,
+                FirstName = requestModel.FirstName,
                 LastName = requestModel.LastName,
                 HashedPassword = hashedPassword
             };
@@ -78,7 +105,8 @@ namespace Infrastructure.Services
             return userResponse;
         }
 
-        private string CreateSalt() {
+        private string CreateSalt()
+        {
 
             byte[] randomBytes = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create())
@@ -89,7 +117,8 @@ namespace Infrastructure.Services
             return Convert.ToBase64String(randomBytes);
         }
 
-        private string HashPassword(string password, string salt) {
+        private string HashPassword(string password, string salt)
+        {
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                password: password,
                salt: Convert.FromBase64String(salt),

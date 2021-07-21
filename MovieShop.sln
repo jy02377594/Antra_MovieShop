@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9AD9E625-CD8F-4E2C-97B4-784ADD3078F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopAPI", "MovieShopAPI\MovieShopAPI.csproj", "{E9776014-9A33-44E3-991C-37E394DB2769}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9AD9E625-CD8F-4E2C-97B4-784ADD3078F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AD9E625-CD8F-4E2C-97B4-784ADD3078F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AD9E625-CD8F-4E2C-97B4-784ADD3078F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9776014-9A33-44E3-991C-37E394DB2769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9776014-9A33-44E3-991C-37E394DB2769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9776014-9A33-44E3-991C-37E394DB2769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9776014-9A33-44E3-991C-37E394DB2769}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

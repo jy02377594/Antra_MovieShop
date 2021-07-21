@@ -32,10 +32,15 @@ namespace Infrastructure.Services
             var movieDto = new List<MovieDto>();
             foreach(var movie in movies)
             {
-                movieDto.Add(new MovieDto { Id = movie.Id, BackdropUrl = movie.BackdropUrl, Budget = movie.Budget.GetValueOrDefault(),
-                Overview = movie.Overview, PosterUrl = movie.PosterUrl, Price = movie.Price.GetValueOrDefault(), 
-                    ReleaseDate = movie.ReleaseDate.GetValueOrDefault(), Revenue = movie.Revenue.GetValueOrDefault(),
-                    Tagline = movie.Tagline, Title = movie.Tagline
+                movieDto.Add(new MovieDto { 
+                    Id = movie.Id, BackdropUrl = movie.BackdropUrl, 
+                    Budget = movie.Budget.GetValueOrDefault(),
+                    Overview = movie.Overview, 
+                    PosterUrl = movie.PosterUrl, Price = movie.Price.GetValueOrDefault(), 
+                    ReleaseDate = movie.ReleaseDate.GetValueOrDefault(), 
+                    Revenue = movie.Revenue.GetValueOrDefault(),
+                    Tagline = movie.Tagline, 
+                    Title = movie.Tagline
                 });
             }
             return movieDto;
@@ -94,6 +99,22 @@ namespace Infrastructure.Services
             }
 
             return movieDetails;
+        }
+
+        public async Task<IEnumerable<MovieCardResponseModel>> GetTopRatedMovies()
+        {
+            var movies = await _movieRepository.GetHighestRatedMovies();
+            var movieCard = new List<MovieCardResponseModel>();
+            foreach (var movie in movies)
+            {
+                movieCard.Add(new MovieCardResponseModel { 
+                    Budget = movie.Budget.GetValueOrDefault(),
+                    PosterUrl = movie.PosterUrl,
+                    Id = movie.Id,
+                    Title = movie.Title
+                });
+            }
+            return movieCard;
         }
 
         //MovieShopDbContext db;
